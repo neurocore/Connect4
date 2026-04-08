@@ -1,15 +1,12 @@
 #pragma once
-#include <vector>
 #include "square.h"
-#include "types.h"
-
-using std::vector;
+#include "moves.h"
 
 namespace Connect4 {
 
 struct Board
 {
-  int stm;
+  int stm, i;
   int h[7];
   u64 bb[2];
 
@@ -18,9 +15,9 @@ struct Board
   bool is_win(int opp = 1);
   void print();
 
-  void make(int move);
-  void unmake(int move);
-  vector<int> generate();
+  void make(Move move);
+  void unmake(Move move);
+  void generate(Moves & moves);
 };
 
 }

@@ -18,20 +18,22 @@ u64 Search::divide(int depth)
   B.print();
 
   auto start = Clock::now();
-  auto moves = B.generate();
 
-  for (int move : moves)
+  Moves moves;
+  B.generate(moves);
+
+  for (int i = 0; i < moves.size(); i++)
   {
-    B.make(move);
+    B.make(moves[i]);
 
-    log("{}", (int)move);
+    log("{}", (int)moves[i]);
 
     u64 cnt = B.is_win() ? 1 : perft_inner(depth - 1);
     count += cnt;
 
     log(" - {}\n", cnt);
 
-    B.unmake(move);
+    B.unmake(moves[i]);
   }
 
   i64 time = elapsed(start);
@@ -75,15 +77,17 @@ u64 Search::perft_inner(int depth)
   if (depth <= 0) return 1;
 
   u64 count = 0ull;
-  auto moves = B.generate();
+
+  Moves moves;
+  B.generate(moves);
 
   if (depth == 1) return moves.size();
 
-  for (int move : moves)
+  for (int i = 0; i < moves.size(); i++)
   {
-    B.make(move);
+    B.make(moves[i]);
     count += B.is_win() ? 1 : perft_inner(depth - 1);
-    B.unmake(move);
+    B.unmake(moves[i]);
   }
   return count;
 }

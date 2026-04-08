@@ -9,7 +9,7 @@ int main()
   cout << "Dumb MCTS-based connect4 engine\n";
 
   Search S;
-  S.perft(9);
+  S.perft(10);
 
   return 0;
 }

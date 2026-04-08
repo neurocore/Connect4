@@ -7,10 +7,12 @@ namespace Connect4 {
 
 void Board::init()
 {
+  static const int heights[] = {0, 7, 15, 24, 30, 35, 42};
+
   stm = 0;
   bb[0] = bb[1] = 0ull;
   for (int i = 0; i < 7; i++)
-    h[i] = 0;
+    h[i] = heights[i];
 }
 
 bool Board::is_win(int opp)
@@ -48,31 +50,27 @@ void Board::print()
 
 void Board::make(int move)
 {
-  assert(h[move] < 6);
-
-  bb[stm] |= bit(to_sq(h[move], move));
-  h[move]++;
+  bb[stm] |= bit(h[move]++);
   stm ^= 1;
 }
 
 void Board::unmake(int move)
 {
   stm ^= 1;
-  h[move]--;
-  bb[stm] &= ~bit(to_sq(h[move], move));
+  bb[stm] &= ~bit(--h[move]);
 }
 
-vector<int> Board::generate()
+void Board::generate(Moves & moves)
 {
-  vector<int> moves;
+  moves.clear();
+
   for (int i = 0; i < 7; i++)
   {
     if (!(Top & bit(h[i])))
     {
-      moves.push_back(i);
+      moves.push(i);
     }
   }
-  return moves;
 }
 
 }
