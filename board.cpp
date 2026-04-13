@@ -5,9 +5,19 @@
 
 namespace Connect4 {
 
+Board::Board(const Board & B)
+{
+  stm = B.stm;
+  bb[0] = B.bb[0];
+  bb[1] = B.bb[1];
+
+  for (int i = 0; i < 7; i++)
+    h[i] = B.h[i];
+}
+
 void Board::init()
 {
-  static const int heights[] = {0, 7, 15, 24, 30, 35, 42};
+  static const int heights[] = {0, 7, 14, 21, 28, 35, 42};
 
   stm = 0;
   bb[0] = bb[1] = 0ull;
@@ -15,7 +25,7 @@ void Board::init()
     h[i] = heights[i];
 }
 
-bool Board::is_win(int opp)
+bool Board::is_win(int opp) const
 {
   static const int dirs[] = { 1, 7, 6, 8 };
   const int side = stm ^ opp;
@@ -30,11 +40,16 @@ bool Board::is_win(int opp)
   return false;
 }
 
-void Board::print()
+bool Board::is_draw() const
+{
+  return (bb[0] | bb[1]) == (Full ^ Top);
+}
+
+void Board::print() const
 {
   for (int r = 6; r >= 0; r--)
   {
-    log("{} | ", r);
+    log("{} | ", r + 1);
     for (int f = 0; f < 7; f++)
     {
       SQ sq = to_sq(r, f);
@@ -44,7 +59,7 @@ void Board::print()
     }
     log("\n");
   }
-  log("  +----------------\n");
+  log("  +---------------\n");
   log("    A B C D E F G  \n\n");
 }
 
@@ -60,7 +75,7 @@ void Board::unmake(int move)
   bb[stm] &= ~bit(--h[move]);
 }
 
-void Board::generate(Moves & moves)
+void Board::generate(Moves & moves) const
 {
   moves.clear();
 

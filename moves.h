@@ -3,6 +3,8 @@
 
 namespace Connect4 {
 
+const Move None = -1;
+
 struct Moves
 {
   int cnt;
