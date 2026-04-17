@@ -292,6 +292,8 @@ Idx Search::get_most_visited(Idx node)
 
 float Search::rollout(Idx node)
 {
+  int stm = B.stm;
+
   WDL wdl;
   while ((wdl = get_wdl()) == NonTerminal)
   {
@@ -302,7 +304,7 @@ float Search::rollout(Idx node)
     B.make(moves[best]);
   }
 
-  return B.stm ? wdl_value[wdl] : -wdl_value[wdl];
+  return (B.stm ^ stm) ? wdl_value[wdl] : -wdl_value[wdl];
 }
 
 void Search::backprop(Idx node, float reward)

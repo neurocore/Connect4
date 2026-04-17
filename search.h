@@ -40,7 +40,7 @@ struct Search
   Node * N;
 
   Idx nodes_ptr = Empty;
-  Idx nodes_max = 10'000'000;
+  Idx nodes_max = 100'000;
 
   std::minstd_rand gen;
   std::uniform_real_distribution<double> dist;
